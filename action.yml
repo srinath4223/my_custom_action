@@ -1,0 +1,24 @@
+name: 'Arguement Counter'
+description: "Counts # of arguements passed in"
+inputs:
+  arguements_to_count: #input id
+    description: "arguments to count"
+    required: true
+    default: ''
+
+outputs:
+  arg-count:
+    description: "Count of arguments passed to it"
+    value: ${{ steps.return-result.outputs.num-args }}
+  
+runs: 
+  using: "composite"
+  steps:
+    - name: Print arguements if any
+      shell: bash
+      run : | 
+        echo Arguments: ${{ inputs.arguements_to_count}}
+    - id: return-result
+      shell: bash
+      run: | 
+        echo "num-args=`${{ github.action_path }}/count-args.sh ${{ inputs.arguements_to_count }}`" >> $GITHUB_OUTPUT
